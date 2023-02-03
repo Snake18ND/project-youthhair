@@ -1,0 +1,178 @@
+
+/* FormServices */
+.services-form ul {
+  list-style-type: none;
+}
+
+.services-form li {
+  display: inline-block;
+}
+
+.services-form input[type="checkbox"] {
+  display: none;
+}
+
+.services-form label {
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.services-form label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.services-form label img {
+  height: 100px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+}
+
+.services-form :checked + label {
+  border-color: #ddd;
+}
+
+.services-form :checked + label:before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+.services-form :checked + label img {
+  transform: scale(0.9);
+  /* box-shadow: 0 0 5px #333; */
+  z-index: -1;
+}
+
+
+/* FormStatus */
+.status-form ul {
+  list-style-type: none;
+  padding-left: 50px;
+  margin: 0;
+}
+
+.status-form li {
+  display: inline-block;
+  position: relative;
+  padding: 20px 10px;
+}
+
+.status-form input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.status-form label { 
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: auto;
+  cursor: pointer;
+  text-align: center;
+}
+
+.status-form label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.status-form :checked + label {
+  border-color: #ddd;
+}
+.status-form :checked + label:before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+/* timeBookingForm */
+.timeBooking-form ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+.timeBooking-form li {
+  display: inline-block;
+  position: relative;
+  padding: 20px 10px;
+}
+
+.timeBooking-form input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.timeBooking-form label { 
+  border: 1px solid #fff;
+  padding: 10px;
+  display: block;
+  position: relative;
+  margin: auto;
+  cursor: pointer;
+  text-align: center;
+  width: 85px;
+  height: 50px;
+}
+
+.timeBooking-form label:before {
+  background-color: grey;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: 1px solid grey;
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+.timeBooking-form :checked + label {
+  border-color: #ddd;
+  background: linear-gradient(#e66465, #9198e5);
+}
+.timeBooking-form :checked + label:before {
+  content: "✓";
+  background-color: gray;
+  transform: scale(1);
+}
+/* End timeBookingForm */

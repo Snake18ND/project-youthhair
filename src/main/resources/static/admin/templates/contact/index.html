@@ -1,0 +1,188 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+	<div ng-include="'/admin/templates/contact/_table.html'"></div>
+</div>
+
+
+<!-- Info Contact Modal-->
+<div class="modal fade" id="infoContactModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Thông Tin Liên Hệ</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="p-5">
+						<div class="text-center">
+							<h1 class="h4 text-gray-900 mb-4">Chi Tiết Liên Hệ!</h1>
+						</div>
+							<div class="form-group">
+								<label class="form-label" for="name">Tên Khách Hàng </label> <input type="text"
+									class="form-control" id="name" ng-model="form.fullName"
+									placeholder="Tên Khách Hàng..." readonly>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="email">Email </label> <input type="email"
+									class="form-control " id="email" ng-model="form.email"
+									placeholder="Nhập Email..." readonly>
+							</div>
+							<div class="form-group">
+								<label class="form-label" for="phone">Số Điện Thoại </label> <input type="text"
+									class="form-control " id="phone" ng-model="form.phone"
+									placeholder="Nhập Số Điện Thoại..." readonly>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="form-label" for="name">Trạng Thái</label>
+										<div class="form-check">
+											<input ng-model="form.status" type="radio" class="form-check-input" id="radio1"
+												name="status" ng-value="false" > <label
+												class="form-check-label" for="radio1">Chưa Xử Lý</label>
+										</div>
+										<div class="form-check">
+											<input ng-model="form.status" type="radio" class="form-check-input" id="radio2"
+												name="status" ng-value="true">
+											<label class="form-check-label" for="radio2">Đã Xử Lý</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="form-group">
+										<div class="form-group">
+											<label class="form-label" for="note">Ghi Chú</label>
+											<textarea class="form-control" id="note" rows="" ng-model="form.note"
+												cols=""></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<hr>
+							<div class="text-right">
+								<button class="btn btn-warning" ng-click="update()"> Update </button>
+								<button class="btn btn-danger" ng-click="delete(form)"> Delete </button>
+							</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- The Modal NewBookingModal -->
+<div class="modal" id="NewBookingModal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" id="closeModalBookingContact" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body p-5">
+				<div class="">
+					<h3 class="text-dark">Hãy nhập thông tin của khách ở dưới
+						đây...</h3>
+					<h6>
+						<span class="text-danger">(*)</span> Vui lòng nhập thông tin bắt
+						buộc
+					</h6>
+					<hr>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fname">Họ Tên Khách Hàng<span
+							class="text-danger">(*)</span></label> <input type="text" id="fname"
+							class="form-control" placeholder="Họ Tên..." ng-model="formBooking.fullName" readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="email">Email <span
+							class="text-danger">(*)</span></label> <input type="email" id="email"
+							class="form-control" placeholder="Email" ng-model="formBooking.email" readonly>
+					</div>
+					<div class="col-md-6">
+						<label class="text-black" for="lname">Số Điện Thoại <span
+							class="text-danger">(*)</span></label> <input type="text" id="lname"
+							class="form-control" placeholder="Số Điện Thoại..." ng-model="formBooking.phone" readonly>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="date">Chọn Ngày <span
+							class="text-danger">(*)</span></label> <input ng-model="formBooking.createDate" type="date" id="date"
+							class="form-control datepicker px-2"
+							placeholder="Chọn Ngày Làm Tóc...">
+					</div>
+					<div class="col-md-6">
+						<label class="text-black" for="time">Khung Giờ Làm Tóc</label> <input
+							type="time" id="time" class="form-control datepicker px-2" ng-model="formBooking.time"
+							placeholder="Khung Giờ Làm Tóc...">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="treatment">Chọn Dịch Vụ <span
+							class="text-danger">(*)</span></label>
+						<ul class="services-form">
+							<li ng-if="servicesChecked[$index] !=null" ng-repeat="services in db.services"><input type="checkbox"
+							  id="tm{{services.id}}" ng-click="cart.add(services.id)"
+							  ng-checked="showBookingWating(formChoXacNhan.id,services.id)>=0"
+							/>
+								<label for="tm{{services.id}}"> <img ng-src="{{'../../../../images/' + services.image}}" />
+									<br> {{services.serviceName}}
+								</label></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						
+						<h4 class="text-black">
+							Tổng Tiền: <span class="text-warning">{{cart.amount | number:0}} VNĐ</span>
+						</h4>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="stylist">Chọn Stylist <span class="text-danger">(*)</span></label>
+						<select class="form-control" id="stylist"
+								ng-model="formBooking.stylistId"
+								>
+								<option ng-value="">Chọn 1 Stylist</option>
+								<option ng-repeat="s in stylists" ng-value="{{s.id}}">{{s.fullName}}</option>	
+						</select>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="note">Ghi Chú</label>
+						<textarea name="note" id="note" cols="30" rows="5" ng-model="formBooking.note"
+							class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<input type="submit" value="Đặt Lịch" ng-click="saveBooking()"
+							class="btn btn-primary py-2 px-4 text-white">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

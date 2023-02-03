@@ -1,0 +1,196 @@
+<!-- Content Row -->
+<div class="row">
+
+	<div class="col-xl-2 col-lg-3">
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Tìm Kiếm</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+						<input type="text"
+						   class="form-control bg-light border-0 small" placeholder="Nhập tên để tìm kiếm..."
+						   aria-label="Search"
+						   ng-model="seachBooking.cusName" ng-change="seachBookingByCusName()">
+                    </div>
+               </div>
+           </div>
+		</div> <br>
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Số bản ghi hiển thị</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+							<select 
+							name="sizePage" 
+							class="custom-select" 
+							ng-model="pager.size" 
+							ng-change="pager.first()"
+							ng-options="x for x in sizePage">
+							</select>
+                    </div>
+               </div> 
+           </div>
+		</div> <br>
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Lọc dữ liệu theo ngày</div>
+                    <p class="text-xl text-info mb-1">Từ</p>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+						<input type="date" class="form-control border-1" onkeydown="return false" ng-model="seachBooking.toDate" ng-change="loadTableToDate()">
+                    </div>
+               </div> <br>
+               <div class=" no-gutters align-items-center">
+                    <p class="text-xl text-info mb-1">Đến</p>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+						<input type="date" class="form-control border-1" onkeydown="return false" ng-model="seachBooking.formDate" ng-change="loadTableFormDate()">
+                    </div>
+               </div> <br>
+               <div class=" no-gutters align-items-center" align="center">
+                    <button type="button" class="btn btn-primary" ng-click="resetSeach()">Reset Table</button>
+               </div>
+           </div>
+			
+		</div> <br>
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Các Hoá Đơn</div>
+                    <div class="form-check">
+					  <label class="form-check-label">
+						  <input type="radio" class="form-check-input" name="optradio" ng-model="seachBooking.statusBooking" ng-change="loadTableCPM()" value="CPM">Đã Thanh Toán
+					  </label>
+					</div>
+					<div class="form-check">
+					  <label class="form-check-label">
+						  <input type="radio" class="form-check-input" name="optradio" ng-model="seachBooking.statusBooking" ng-change="loadTableCAN()" value="CAN">Đã Huỷ
+					  </label>
+					</div>
+               </div>
+           </div>
+		</div> <br>
+	</div>
+
+	<div class="col-xl-10 col-lg-9">
+
+		<div class="card shadow border-left-info mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-info">Danh sách các hoá
+					đơn</h6>
+			</div>
+			<div class="card-body">
+				<!-- 
+				<button class="btn btn-success btn-icon-split" id="export"> <span
+					class="icon text-white-50"> <i class="	fas fa-folder-open"></i>
+					</span> <span class="text">Xuất Dữ Liệu</span>
+				</button>	
+				<br> <br> -->
+				<div class="table-responsive">
+					<table class="table table-hover table-striped text-dark text-center"  >
+						<thead class="thead-dark">
+							<tr>
+								<th>Mã Hoá Đơn</th>
+								<th>Ngày Tạo</th>
+								<th>Tên Khách Hàng</th>
+								<th>Tên Stylist</th>
+								<th>Trạng Thái</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in pager.items" >
+								<td>{{item.id}}</td>
+								<td>{{item.createDate}}</td>
+								<td>{{item.customer.fullName}}</td>
+								<td>{{item.employee1.fullName}}</td>
+								<td>{{item.statusbooking.statusName}}</td>
+								<td><a href="#!billpaid" ng-click="showDetail(item)"
+									class="btn btn-info btn-circle" data-toggle="modal"
+									data-target="#infoBillModal"> <i class="fas fa-info-circle"></i>
+								</a></td>
+							</tr>
+							<tr ng-if="pager.count == 0"><td colspan="6" class="text-info"> <h4>Không có hoá đơn nào!!!</h4></td></tr>
+						</tbody>
+					</table>
+					<div class="text-center">
+						<button ng-click="pager.first()" class="btn btn-info btn-circle" ng-disabled="disabledBtnFisrt"> 
+							<i class="fas fa-angle-double-left"></i>
+						</button> 
+						<button ng-click="pager.prev()" class="btn btn-info btn-circle"> 
+							<i class="fas fa-angle-left"></i>
+						</button>
+						<button class="btn btn-info" disabled="disabled">{{pager.page + 1}} of {{pager.count}}</button>
+						<button ng-click="pager.next()" class="btn btn-info btn-circle"> 
+							<i class="fas fa-angle-right"></i>
+						</button> 
+						<button ng-click="pager.last()" class="btn btn-info btn-circle" ng-disabled="disabledBtnLast"> 
+							<i class="	fas fa-angle-double-right"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Info Modal-->
+<div class="modal fade" id="infoBillModal" tabindex="1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Thông Tin Hoá
+					Đơn</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="id">Mã Hoá Đơn:</label> <input type="text"
+						class="form-control" placeholder="Mã Hoá Đơn..." id="id" ng-model="form.id" readonly>
+				</div>
+				<div class="form-group">
+					<label for="customer">Tên Khách Hàng:</label> <input type="text"
+						class="form-control" placeholder="Tên Khách Hàng..." id="customer"
+						ng-model="form.customer.fullName" readonly>
+				</div>
+				<div class="form-group">
+					<label for="stylist">Stylist:</label> <input type="text"
+						class="form-control" placeholder="Stylist..." id="stylist"
+						ng-model="form.employee1.fullName" readonly>
+				</div>
+				<div class="form-group">
+					<label for="vote">Mức Độ Đánh Giá:</label> <input type="text"
+						class="form-control" placeholder="Mức Độ Đánh Giá..." id="vote"
+						ng-model="form.voting.name" readonly>
+				</div>
+				<div class="form-group">
+					<label for="time">Tổng Thời Gian:</label> <input type="text"
+						class="form-control" placeholder="Tổng Thời Gian..." id="time"
+						ng-model="form.totalTime" readonly>
+				</div>
+				<div class="form-group">
+					<label for="price">Tổng Hoá Đơn:</label> <input type="text"
+						class="form-control" placeholder="Tổng Hoá Đơn..." id="price"
+						ng-model="form.totalPrice" readonly>
+				</div>
+				<div class="form-group">
+					<label for="createDate">Ngày Tạo:</label> <input type="text"
+						class="form-control" placeholder="Ngày Tạo..." id="createDate"
+						ng-model="form.createDate" readonly>
+				</div>
+				<div class="form-group">
+					<label for="note">Ghi Chú:</label>
+					<textarea class="form-control" placeholder="Ghi Chú..." id="note"
+						ng-model="form.note" readonly></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

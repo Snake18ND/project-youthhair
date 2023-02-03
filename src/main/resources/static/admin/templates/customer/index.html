@@ -1,0 +1,45 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+	<div ng-include="'/admin/templates/customer/_table.html'"></div>
+</div>
+<!-- GiftVoucher Modal-->
+<div class="modal fade" id="GiftVoucherModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title" id="exampleModalLabel">Tặng Voucher</h3>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Họ Tên khách hàng</label>
+						<input ng-model="formVoucherGift.customer.fullName" type="text"
+							class="form-control " id="fullname" placeholder="Họ Tên..."
+							disabled>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="voucher">Chọn Voucher <span
+							class="text-danger">(*)</span></label> <select class="form-control"
+							id="voucher" ng-model="formVoucherGift.voucher.id">
+							<option disabled selected value="">Hãy Chọn 1 Voucher</option>
+							<option ng-repeat="v in vouchers" value="{{v.id}}">{{v.id}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="text-right">
+					<a href="#!customers" class="btn btn-success"
+						ng-click="giftVoucher()"> Tặng</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+

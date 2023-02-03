@@ -1,0 +1,422 @@
+<!-- Begin Page Content -->
+<div class="container">
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Các lịch chờ xác
+				nhận</h6>
+		</div>
+		<div class="card-body">
+			<div class="form-group">
+				<div class="d-none d-sm-inline-block">
+					<input type="text" ng-model="searchText"
+						   class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+						   aria-label="Search">
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-hover table-striped text-dark text-center">
+					<thead class="thead-dark">
+						<tr>
+							<th>Khách Hàng</th>
+							<th>Stylist</th>
+							<th>Thời Gian</th>
+							<th>Tổng Tiền</th>
+							<th>Ngày Tạo</th>
+							<th>Trạng Thái</th>
+							<th>Chức Năng</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in pager2.items2 | filter:searchText" >
+							<td>{{item.customer.fullName}}</td>
+							<td>{{item.employee1.fullName}}</td>
+							<td>{{item.timeBooking}}</td>
+							<td>{{item.totalPrice}}</td>
+							<td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
+							<td>{{item.statusbooking.statusName}}</td>
+							<td class="text-center"><button ng-click="showDetail2(item);getDate1();showServiceChecked();getDisableTime(item.employee1.id,item.createDate,item.id);"
+															class="btn btn-info btn-circle" data-toggle="modal" data-target="#InfoCheckModal"> <i
+									class="fas fa-info-circle"></i>
+							</button> <button class="btn btn-danger btn-circle" ng-click="updateCAN(item)"> <i
+									class="fas fa-trash"></i>
+							</button></td>
+						</tr>
+						<tr ng-if="pager2.count == 0"><td colspan="7" class="text-info"> <h4>Chưa có lịch hẹn nào!!!</h4></td></tr>
+					</tbody>
+				</table>
+				<div class="d-none d-sm-inline-block form-inline">
+					<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+						Size</div>
+					<select
+							name="sizePage"
+							class="custom-select"
+							ng-model="pager2.size"
+							ng-change="pager2.setPage()"
+							ng-options="x for x in sizePage">
+					</select>
+				</div>
+				<div class="text-center">
+					<button ng-click="pager2.first()" class="btn btn-primary btn-circle"> <i
+							class="fas fa-angle-double-left"></i>
+					</button> <button ng-click="pager2.prev()" class="btn btn-primary btn-circle"> <i
+						class="fas fa-angle-left"></i>
+				</button>
+					<button class="btn btn-primary" disabled="disabled">{{pager2.page + 1}} of {{pager2.count}}</button>
+					<button ng-click="pager2.next()" class="btn btn-primary btn-circle"> <i
+							class="fas fa-angle-right"></i>
+					</button> <button ng-click="pager2.last()" class="btn btn-primary btn-circle"> <i
+						class="	fas fa-angle-double-right"></i>
+				</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="card shadow border-left-primary mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">Danh Sách Lịch Hẹn Đã Xác Nhận</h6>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<div class="d-none d-sm-inline-block">
+				<input type="text" ng-model="searchTextCOM"
+					class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+					aria-label="Search">
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped text-dark text-center" id="dataTable">
+				<thead class="thead-dark">
+					<tr>
+						<th>Khách Hàng</th>
+						<th>Stylist</th>
+						<th>Tổng Thời Gian</th>
+						<th>Tổng Tiền</th>
+						<th>Ngày Tạo</th>
+						<th>Trạng Thái</th>
+						<th>Chức Năng</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in pagerCOM.itemsCOM | filter:searchTextCOM" >
+						<td>{{item.customer.fullName}}</td>
+						<td>{{item.employee1.fullName}}</td>
+						<td>{{item.timeBooking}}</td>
+						<td>{{item.totalPrice}}</td>
+						<td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
+						<td>{{item.statusbooking.statusName}}</td>
+						<td>
+							<a style="cursor: pointer;" ng-click="showDetailCOM(item);getDate3();showServiceChecked();getDisableTime1(item.employee1.id,item.createDate,item.id)"
+								class="btn btn-primary" data-toggle="modal" data-target="#infoConfirmModal"> Chi Tiết</i>
+							</a>
+							<a style="cursor: pointer;" class="btn btn-danger" ng-click="updateCAN(item)"> Huỷ</i></a>
+						</td>
+					</tr>
+				</tbody>				
+			</table>
+			<div class="d-none d-sm-inline-block form-inline">
+				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+					Page Size</div>
+				<select
+						name="sizePage"
+						class="custom-select"
+						ng-model="pagerCOM.size"
+						ng-change="pagerCOM.setPage()"
+						ng-options="x for x in sizePage">
+				</select>
+			</div>
+			<div class="text-center">
+
+				<button ng-click="pagerCOM.first()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-double-left"></i>
+				</button> <button ng-click="pagerCOM.prev()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-left"></i>
+				</button> 
+				<button class="btn btn-primary" disabled="disabled">{{pagerCOM.page + 1}} of {{pagerCOM.count}}</button>
+				<button ng-click="pagerCOM.next()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-right"></i>
+				</button> <button ng-click="pagerCOM.last()" class="btn btn-primary btn-circle"> <i
+					class="	fas fa-angle-double-right"></i>
+				</button>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+</div>
+
+
+
+<!-- InfoCheckModal-->
+<!--modal cac lich cho xac nhan-->
+<div id="InfoCheckModal"class="modal fade" tabindex="-1" role="dialog"
+	 aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="m-0 font-weight-bold text-primary">Chỉnh sửa chi
+					tiết</h4>
+				<button type="button" class="close" data-dismiss="modal" id="closeModelUCF">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<form class="css-form" name="choXacNhan"
+				  ng-submit="choXacNhan.$valid" novalidate>
+			<div class="modal-body p-5">
+
+				<div class="row form-group">
+					<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="fname">Họ Tên <span
+								class="text-danger">(*)</span></label><input
+							type="text" id="fname" class="form-control" ng-model="formChoXacNhan.customer.fullName"
+							name="hoTen"
+							placeholder="Họ Tên..."
+							ng-required="true">
+						<span ng-show="choXacNhan.$submitted ">
+						<span ng-show="choXacNhan.hoTen.$error.required" class="error-msg text-danger" >Bạn chưa nhập tên.</span>
+							</span>
+					</div>
+					<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="email">Email <span
+								class="text-danger">(*)</span></label> <input
+								name="thuDienTu"
+								class="form-control" placeholder="Email"
+								ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]*\.([a-z]{2,4})$/"
+								ng-required="true"
+							type="email" id="email" class="form-control" placeholder="Email" ng-model="formChoXacNhan.customer.email"
+							>
+						<span ng-show="choXacNhan.$submitted ">
+      					<span ng-show="choXacNhan.thuDienTu.$error.required"
+							  class="error-msg text-danger">Bạn chưa nhập Email.</span>
+   													 </span>
+						<span class="error-msg text-danger" ng-show="choXacNhan.thuDienTu.$dirty && choXacNhan.thuDienTu.$error.pattern">
+						Email không đúng định dạng!
+						</span>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-6">
+						<label class="text-black" for="lname">Số Điện Thoại </label> <input
+							type="text" id="lname" class="form-control" ng-model="formChoXacNhan.customer.phone"
+							placeholder="Số Điện Thoại..." readonly>
+					</div>
+					<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="date">Ngày Làm Tóc <span
+								class="text-danger">(*)</span></label> <input ng-model="formChoXacNhan.createDate"
+																			  ng-change="getDate1()"
+																			  type="date" id="date" class="form-control datepicker px-2"
+																			  placeholder="Ngày Làm Tóc...">
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" >Chọn Dịch Vụ <span
+								class="text-danger">(*)</span></label>
+						<ul class="services-form">
+							<li ng-if="servicesChecked[$index] !=null" ng-repeat="services in db.services"><input type="checkbox"
+							  id="xn{{services.id}}" ng-click="cart.add(services.id)"
+							  ng-checked="showBookingWating(formChoXacNhan.id,services.id)>=0"
+							/>
+								<label for="xn{{services.id}}"> <img ng-src="{{'../../../../images/' + services.image}}" />
+									<br> {{services.serviceName}}
+								</label></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="stylist">Chọn Stylist <span class="text-danger">(*)</span></label>
+						<select class="form-control" id="stylist"
+								ng-model="formChoXacNhan.employee1"
+								ng-change="getDate1()"
+								ng-options="x as x.fullName for x in itemConfirm track by x.id">
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" >Chọn Giờ Đến <span
+								class="text-danger">(*)</span></label><br>
+						<span>Khung giờ hiện tại: {{formChoXacNhan.timeBooking}}</span>
+						<ul class="timeBooking-form text-center" >
+							<div ng-if="shiftsByStylist.id != null">
+								<li ng-repeat="item in allTimeBookingByShifts" >
+									<input type="radio" 
+									ng-disabled="disableTime1(item.id)>=0" 
+									ng-click="timeByStylist(item.id);timeNameByStylist(item.name)" 
+									name="timeBooking" id="time{{$index}}" 
+									ng-checked="checkTimeBookingUCF(formChoXacNhan,item.name)>=0"
+									/>
+									<label for="time{{$index}}" class="btn-secondary btn-lg"> {{item.name}}</label>
+								</li> </div>
+							<div ng-if="shiftsByStylist.id == null">
+								<h3 class="text-center text-lg text-info">
+									Nhân Viên Bận!!!
+								</h3>
+							</div>
+
+						</ul>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="note">Ghi Chú</label>
+						<textarea name="note" id="note" cols="30" rows="5" ng-model="formChoXacNhan.note"
+								  class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-md-12">
+						<h4 class="text-black">
+							Tổng Tiền: <span class="text-warning">{{cart.amount | number:0}} VNĐ</span>
+						</h4>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<!--
+                               <input type="submit" value="Lưu"
+                                   class="btn btn-primary py-2 px-4 text-white"> -->
+						<button ng-click="booking.purchase()" type="submit" class="btn btn-success">Xác Nhận</button>
+					</div>
+				</div>
+
+			</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+<!-- InfoConfirmModal-->
+<!--modal danh sach lich hen da xac nhan-->
+<div class="modal fade" id="infoConfirmModal" tabindex="-1" role="dialog"
+	 aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="m-0 font-weight-bold text-primary">Chỉnh sửa chi
+					tiết</h4>
+				<button type="button" class="close" data-dismiss="modal" id="closeModelCOM">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<form class="css-form" name="myForm"
+				  ng-submit="myForm.$valid" novalidate>
+				<div class="modal-body p-5">
+
+					<div class="row form-group">
+						<div class="col-md-6 mb-3 mb-md-0">
+							<label class="text-black" for="fname">Họ Tên</label><input
+								type="text" id="fname1" class="form-control" ng-model="formCOM.customer.fullName"
+								placeholder="Họ Tên..." readonly>
+						</div>
+						<div class="col-md-6 mb-3 mb-md-0">
+							<label class="text-black" for="email">Email</label> <input
+								type="email" id="email1" class="form-control" placeholder="Email" ng-model="formCOM.customer.email"
+								readonly>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-6">
+							<label class="text-black" for="lname">Số Điện Thoại </label> <input
+								type="text" id="lname1" class="form-control" ng-model="formCOM.customer.phone"
+								placeholder="Số Điện Thoại..." readonly>
+						</div>
+						<div class="col-md-6 mb-3 mb-md-0">
+							<label class="text-black" for="date1">Ngày Làm Tóc <span
+									class="text-danger">(*)</span></label> <input ng-model="formCOM.createDate"
+																				  ng-change="getDate3()"
+																				  type="date" id="date1" class="form-control datepicker px-2"
+																				  placeholder="Ngày Làm Tóc...">
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" >Chọn Dịch Vụ <span
+									class="text-danger">(*)</span></label>
+							<ul class="services-form">
+								<li ng-if="servicesChecked[$index] !=null" ng-repeat="services in db.services"><input type="checkbox"
+																													  id="xn1{{services.id}}" ng-click="cart.add(services.id)"
+																													  ng-checked="showBookingWating(formCOM.id,services.id)>=0"
+								/>
+									<label for="xn1{{services.id}}"> <img ng-src="{{'../../../../images/' + services.image}}" />
+										<br> {{services.serviceName}}
+									</label></li>
+							</ul>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="stylist">Chọn Stylist <span class="text-danger">(*)</span></label>
+							<select class="form-control" id="stylist1"
+									ng-model="formCOM.employee1"
+									ng-change="getDate3()"
+									ng-options="x as x.fullName for x in itemConfirm track by x.id">
+							</select>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" >Chọn Giờ Đến<span
+									class="text-danger">(*)</span></label><br>
+							<span>Khung giờ hiện tại: {{formCOM.timeBooking}}</span>
+							<ul class="timeBooking-form text-center" >
+								<div ng-if="shiftsByStylist.id != null">
+									<li ng-repeat="item in allTimeBookingByShifts" >
+										<input type="radio" ng-disabled="disableTime2(item.id)>=0"
+									    ng-checked="checkTimeBookingCOM(formCOM,item.name)>=0"
+										ng-click="timeByStylist(item.id);timeNameByStylist(item.name)" 
+										name="timeBooking" id="time2{{$index}}"   />
+										<label for="time2{{$index}}" class="btn-secondary btn-lg"> {{item.name}}</label>
+									</li> </div>
+								<div ng-if="shiftsByStylist.id == null">
+									<h3 class="text-center text-lg text-info">
+										Nhân Viên Bận!!!
+									</h3>
+								</div>
+							</ul>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="note">Ghi Chú</label>
+							<textarea name="note" id="note1" cols="30" rows="5" ng-model="formCOM.note"
+									  class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<h4 class="text-black">
+								Tổng Tiền: <span class="text-warning">{{cart.amount | number:0}} VNĐ</span>
+							</h4>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<!--
+                                   <input type="submit" value="Lưu"
+                                       class="btn btn-primary py-2 px-4 text-white"> -->
+							<button ng-click="booking.updateWFC()" type="button" class="btn btn-success">Thêm vào lịch chờ cắt</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>

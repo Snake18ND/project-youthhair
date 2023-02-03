@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form class="css-form" name="myForm" ng-submit="myForm.$valid " novalidate>
+<div class="site-section" 
+     style="background-image: url('assets/images/background-booking.jpg'); background-size: cover;">
+
+
+        <br>
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7">
+                    <h2
+                            class="site-section-heading font-weight-light text-black text-center">Đặt
+                        Lịch</h2>
+                    <br>
+                    <p align="center" class="text-white">Nhấn vào ảnh Stylist để
+                        tiến hành đặt lịch!</p>
+                </div>
+            </div>
+            <div class="row" >
+                <div data-toggle="modal" data-target="#myModal" style="cursor: pointer;" class="col-md-6 col-lg-4 mb-5 mb-lg-5" th:each="sty,state:${stylist}"
+                     ><!--th:attr="ng-value=@{|Stylist.addSty(${sty.id})|}" >-->
+                    <div class="h-100 p-4 p-lg-5 site-block-feature-7" align="center"
+                         th:attr="ng-click=@{|styId(${sty.id})|}"
+                         style="border-radius: 30%; box-shadow: 1px 1px 4px 4px #F1F3CE; background-image: linear-gradient(to top, rgba(255, 0, 0, 0), #D0E1F9);">
+                        <input ng-model="form.StylistId" hidden="true" th:attr="ng-value=${sty.id}"/>
+                        <img alt="" th:src="@{|../../../../images/${sty.image}|}"
+                             class="icon display-3 mb-4 d-block rounded-circle" width="150px" height="150px">
+                        <h5 class="text-light h5"> <strong>[[${sty.fullName}]]</strong> </h5>
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" id="closeModalBookingCustomer" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-5 bg-white">
+                <div class="site-section-heading">
+                    <h3 class="mb-4">Hãy nhập thông tin của bạn ở dưới đây...</h3>
+                    <h5>
+                        <span class="text-danger">(*)</span> Vui lòng Vui lòng nhập thông
+                        tin bắt buộc
+                    </h5>
+                    <br>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0" name="ValidName">
+                        <label class="text-black" for="fname">Họ Tên
+                            <span class="text-danger">(*)</span></label>
+                        <input type="text" id="fname" name="fullName"
+                               ng-model="form.fullName"
+                               class="form-control"
+                               placeholder="Họ Tên..."
+                               ng-required="true">
+                        <span ng-show="myForm.$submitted ">
+      							<span ng-show="myForm.fullName.$error.required" class="error-msg text-danger" >Bạn chưa nhập tên.</span>
+    								</span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-black" for="lname">Số Điện Thoại <span
+                                class="text-danger">(*)</span></label> <input type="text" id="lname" name="phone"
+                                                                              ng-model="form.phone"
+                                                                              class="form-control"
+                                                                              placeholder="Số Điện Thoại..."
+                                                                              ng-minlength="10" ng-maxlength="10"
+                                                                              ng-pattern="/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/"
+                                                                              ng-required="true">
+                        <span ng-show="myForm.$submitted ">
+      					<span ng-show="myForm.phone.$error.required"
+                              class="error-msg text-danger">Bạn chưa nhập số điện thoại.</span>
+   													 </span>
+                        <span class="error-msg text-danger" ng-show="myForm.phone.$dirty && myForm.phone.$error.pattern">
+            Vui lòng nhập đúng số điện thoại!
+            </span>
+                        <span class="error-msg text-danger" ng-show="myForm.phone.$error.minlength">Nhập ít nhất 10 số.
+  </span>
+                        <span class="error-msg text-danger" ng-show="myForm.phone.$error.maxlength"> Độ dài tối đa là 10 số.
+  </span>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <label class="text-black" for="email">Email <span
+                                class="text-danger">(*)</span></label> <input type="email" id="email"
+                                                                              ng-model="form.email" name="email"
+                                                                              class="form-control" placeholder="Email"
+                                                                              ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]*\.([a-z]{2,4})$/"
+                                                                              ng-required="true">
+                        <span ng-show="myForm.$submitted ">
+      					<span ng-show="myForm.email.$error.required"
+                              class="error-msg text-danger">Bạn chưa nhập Email.</span>
+   													 </span>
+                        <span class="error-msg" ng-show="myForm.email.$dirty && myForm.email.$error.pattern">
+            Email không đúng!
+            </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-black" for="txtDate">Chọn Ngày <span
+                                class="text-danger">(*)</span></label> <input name="somedate" type="date" id="txtDate" onkeydown="return false"
+                                                                              ng-model="form.createDate"
+                                                                              ng-change="getDate()"
+                                                                              class="form-control px-2"
+                                                                              placeholder="Chọn Ngày Làm Tóc..."  >                        
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label class="text-black">Chọn Dịch Vụ <span
+                                class="text-danger">(*)</span></label>
+                        <ul class="services-form text-center">
+                            <li th:each="s,state:${sers} " >
+                                <input type="checkbox" th:id="${state.index}" name="service"
+                                       th:attr="ng-click=@{|cart.add(${s.id})|}" ng-required="true"/>
+                                <label th:for="${state.index}"
+                                > <img th:src="@{|../../../../images/${s.image}|}"/>
+                                    <br><a> [[${s.serviceName}]]</a>
+                                </label>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <span ng-show="myForm.$submitted ">
+      					<span ng-show="myForm.service.$error.required"
+                              class="error-msg text-danger">Bạn chưa chọn dịch vụ.</span>
+   													 </span>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                         <label class="text-black" for="note">Tổng Tiền: </label> <span>{{cart.amount}} VNĐ</span>
+                    </div>
+                </div>
+                
+                <div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" >Chọn Giờ Đến <span
+								class="text-danger">(*)</span></label>
+							<ul class="timeBooking-form text-center" >
+
+                                <div ng-if="shiftsByStylist.id != null">
+                                    <li ng-repeat="item in allTimeBookingByShifts" >
+                                    <input type="radio" ng-disabled="disableTime(item.id)>=0" 
+                                    ng-click="timeByStylist(item.id);timeNameByStylist(item.name)" 
+                                    name="timeBooking" id="time{{$index}}" />
+                                    <label for="time{{$index}}" class="btn-secondary btn-lg" id="labelTimeBooking" > {{item.name}}</label>
+                                </li> </div>
+                                <div ng-if="shiftsByStylist.id == null">
+	                                <h3 class="text-center text-lg text-info">
+	                                	Nhân Viên Bận!!!
+	                                </h3>                                
+                                </div>
+
+							</ul>
+					</div>
+				</div>
+                
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label class="text-black" for="note">Ghi Chú</label>
+                        <textarea name="note" id="note" cols="30" rows="5" ng-model="form.note"
+                                  class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-12" >
+                        <input type="submit" value="Đặt Lịch" ng-click="booking.purchase()"
+                               class="btn btn-primary py-2 px-4 text-white">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</form>
+
+</body>
+</html>

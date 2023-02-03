@@ -1,0 +1,91 @@
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <form name="userForm" ng-submit="userForm.$valid && doSubmitForm($event)" novalidate>
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Chi Tiết Voucher!</h1>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="name">Mã Voucher
+                                <span class="text-danger">(*)</span>
+                            </label>
+                            <input ng-model="form.id" type="text" class="form-control" id="name" name="id"
+                                   placeholder="Tên voucher..." ng-disabled="disabledId" required ng-maxlength="5">
+                            <span ng-show="userForm.$submitted ">
+                                    <p class="error-msg" ng-show="userForm.id.$invalid">Không để trống ID và nhập nhiều nhất 5 kí tự.</p>
+                            </span>
+
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="price">Giá Khuyến Mãi
+                                <span class="text-danger">(*)</span>
+                            </label>
+                            <input ng-model="form.price" type="number" class="form-control " id="price"
+                                   placeholder="Nhập Giá Khuyến Mãi..." name="price" required ng-min="10000" ng-max="{{form.condition}}">
+                            <span ng-show="userForm.$submitted">
+                                    <p ng-show="userForm.price.$invalid"class="error-msg">Không để trống giá khuyến mãi,giá trị nhỏ nhất là 10000 và nhỏ hơn điều kiện khuyến mãi.</p>
+                            </span>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="condition">Điều kiện hoá đơn
+                                <span class="text-danger">(*)</span></label>
+                            <input ng-model="form.condition" type="number" class="form-control " id="condition"
+                                   placeholder="Nhập Điều Kiền..." name="condition" required ng-min="10000">
+                            <span ng-show="userForm.$submitted">
+                                    <p ng-show="userForm.condition.$invalid"class="error-msg">Không để trống điều kiện khuyến mãi và giá trị nhỏ nhất là 10000.</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Mô Tả <span class="text-danger">(*)</span></label>
+                                        <textarea ng-model="form.note" class="form-control " name="note" rows="" cols="" required></textarea>
+                                        <span ng-show="userForm.$submitted" >
+                                    <p ng-show="userForm.note.$invalid"class="error-msg">Không để trống mô tả.</p>
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="text-right">
+                            <button ng-click="reset()" class="btn btn-primary  "> Reset </button>
+                            <button type="submit" ng-click="create()" class="btn btn-success " ng-disabled="disabledBtnCreate"> Create </button>
+                            <button type="submit" class="btn btn-warning" ng-click="update()" ng-disabled="disabledBtnUpdate">Update</button>
+
+
+                            <h4 ng-show="userForm.$submitted && userForm.$invalid" class="error-msg">
+                                Tồn tại dữ liệu không hợp lệ,vui lòng kiểm tra lại
+                            </h4>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .error-msg {
+        font-size: 90%;
+        font-style: italic;
+        color: red;
+    }
+</style>

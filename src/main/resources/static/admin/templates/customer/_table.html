@@ -1,0 +1,207 @@
+<div class="row">
+
+	<div class="col-xl-2 col-lg-3">
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+				<div class=" no-gutters align-items-center">
+					<div
+						class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+						Tìm kiếm</div>
+					<div class="h5 mb-0 font-weight-bold text-gray-800">
+						<input type="text" ng-model="seachCustomer.fullName"
+						   ng-change="seachCustomerByName()"
+						   class="form-control bg-light border-0 small"
+						   placeholder="Tìm kiếm..." aria-label="Search">
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+				<div class=" no-gutters align-items-center">
+					<div
+						class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+						Số bản ghi</div>
+					<div class="h5 mb-0 font-weight-bold text-gray-800">
+						<select
+							name="sizePage"
+							class="custom-select"
+							ng-model="pager.size"
+							ng-change="pager.setPage()"
+							ng-options="x for x in sizePage">
+							</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+	</div>
+
+	<div class="col-xl-10 col-lg-9">
+		<div class="card shadow border-left-info mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-info">Danh sách khách hàng</h6>
+			</div>
+			<div class="card-body">
+
+				<div class="table-responsive">
+					<table class="table table-hover table-striped text-dark text-center">
+						<thead class="thead-dark">
+							<tr>
+								<th>Tên khách hàng</th>
+								<th>Email</th>
+								<th>SĐT</th>
+								<th>Chi tiết</th>
+								<th>Tặng Voucher</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in pager.items | filter:searchText">
+								<td>{{item.fullName}}</td>
+								<td>{{item.email}}</td>
+								<td>{{item.phone}}</td>								
+								<td>
+									<button ng-click="showDetail(item)"
+										class="btn btn-info btn-circle" data-toggle="modal"
+										data-target="#infoCustomerModal"> <i class="fas fa-info-circle"></i>
+									</button>
+								</td>								
+								<td>
+									<a
+									ng-click="openGiftForm(item)"	href="#!customers"
+									data-toggle="modal" data-target="#GiftVoucherModal"
+									class="btn btn-secondary btn-circle"> <i
+										class="fas fa-gift"></i>
+								</a></td>
+							</tr>
+
+						</tbody>
+					</table>
+					<div class="text-center">
+
+
+						<a ng-click="pager.first()" class="btn btn-info btn-circle"> <i
+							class="fas fa-angle-double-left"></i>
+						</a> <a ng-click="pager.prev()" class="btn btn-info btn-circle"> <i
+							class="fas fa-angle-left"></i>
+						</a>
+
+						<button class="btn btn-info" disabled="disabled">{{pager.page
+							+ 1}} of {{pager.count}}</button>
+
+						<a ng-click="pager.next()" class="btn btn-info btn-circle"> <i
+							class="fas fa-angle-right"></i>
+						</a> <a ng-click="pager.last()" class="btn btn-info btn-circle"> <i
+							class="	fas fa-angle-double-right"></i>
+						</a>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+<!-- Info Customer Modal-->
+<div class="modal fade" id="infoCustomerModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Thông Tin Khách Hàng</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="p-5">
+					<div class="text-center">
+						<h1 class="h4 text-gray-900 mb-4">Chi Tiết Khách Hàng!</h1>
+					</div>
+					<form class="css-form" name="myForm"
+						ng-submit="myForm.$valid" novalidate>
+			
+						<div class="form-group">
+							<label class="form-label" for="fullname">
+								Tên khách hàng 
+							</label> <input ng-model="form.fullName" type="text"
+								class="form-control " id="fullname"
+								placeholder="Nhập tên khách hàng..." readonly>
+
+						</div>
+						
+						<div class="form-group">
+							<label class="form-label" for="email">Email</label> <span
+								class="text-danger">(*)</span> 
+								<input 
+								ng-model="form.email" 
+								type="email" 
+								class="form-control"
+								name="email"
+								id="email" 
+								placeholder="nhập email.."
+								ng-required="true"
+								ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" 
+								/>
+							<span ng-show="myForm.$submitted"> 
+								<span
+									ng-show="myForm.email.$error.required" 
+									class="text-danger">
+									Bạn chưa nhập địa chỉ email!
+								</span>
+							</span>
+							<span class="text-danger" ng-show="myForm.email.$dirty && myForm.email.$error.pattern">
+				            	Vui lòng nhập đúng định dạng email!
+				         	</span>
+						</div>
+
+						<div class="form-group">
+							<label class="form-label" for="phone">Số Điện Thoại</label><span
+								class="text-danger">(*)</span> 
+								<input
+								ng-model="form.phone" name="phone" class="form-control" id="phone"
+								placeholder="nhập sđt..." 
+								ng-minlength="10"
+								ng-maxlength="10" 
+								ng-pattern="/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/" 
+								ng-required="true"
+								/> 
+								<span ng-show="myForm.$submitted"> 
+									<span
+										ng-show="myForm.phone.$error.required" 
+										class="text-danger">
+										Bạn chưa nhập số điện thoại!
+									</span>
+								</span>
+								<span class="text-danger" ng-show="myForm.phone.$dirty && myForm.phone.$error.pattern">
+					            	Vui lòng nhập đúng định dạng số điện thoại!
+					         	</span>
+					         	<span class="text-danger" ng-show="myForm.phone.$error.maxlength">
+						        	Độ dài tối đa là 10 số.
+						 		</span>
+						</div>
+			
+						<hr>
+						<div class="text-right">
+							<div class="panel-footer text-center">
+								<div class="text-right">
+									<button type="submit" class="btn btn-warning"
+										ng-click="update()">
+										Update</button>									
+								</div>
+
+							</div>
+
+						</div>
+								
+					</form>			
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

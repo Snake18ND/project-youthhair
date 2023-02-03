@@ -1,0 +1,102 @@
+<div class="row">
+
+	<div class="col-xl-2 col-lg-3">
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Tìm Kiếm</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+						<input type="text" ng-model="seachEmployee.fullName"
+						   ng-change="seachEmployeeByName()"
+						   class="form-control bg-light border-0 small"
+						   placeholder="Tìm kiếm..." aria-label="Search">
+                    </div>
+
+               </div>
+           </div>
+		</div> <br>
+		<div class="card border-left-primary shadow  py-2">
+			<div class="card-body">
+               <div class=" no-gutters align-items-center">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Số bản ghi hiển thị</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+							<select name="sizePage" class="custom-select" 
+							ng-model="pagerPhanCa.size"
+							ng-change="pagerPhanCa.setPage()"
+							ng-options="x for x in sizePage">
+							</select>
+                    </div>
+               </div> 
+           </div>
+		</div><br>
+	</div>
+	
+	<div class="col-xl-10 col-lg-9">
+
+<div class="card shadow border-left-info mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-info">Lịch Làm Việc</h6>
+	</div>
+	<div class="card-body">
+	
+	
+	
+		
+		<div class="table-responsive" >
+			<table class="table table-hover table-striped text-dark text-center">
+				<thead class="thead-dark">
+					<tr>
+						<th>Họ Tên</th>
+						<th>Vai Trò</th>
+						<th>Biệt Danh</th>
+						<th>Ngày Đăng Ký</th>
+						<th>Ca Làm</th>	
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in pagerPhanCa.items | filter:searchText " >						
+                		<td>{{item.employee.fullName}}</td>
+                		<td>{{item.employee.role.name}}</td>
+                		<td>{{item.employee.nickname}}</td>
+                		<td>{{item.date | date:'dd-MM-yyyy'}}</td>
+                		<td>{{item.shifts.name}}</td>
+						<td class="text-center">
+							<a ng-click="editCaLam(item)" class="btn btn-info btn-circle"
+								data-toggle="modal" data-target="#updatePhanCaModal">
+	                            <i class="fas fa-info-circle"></i>
+	                        </a>
+							
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<div class="text-center">
+						<button ng-click="pagerPhanCa.first()" class="btn btn-info btn-circle" ng-disabled="disabledBtnFisrt"> 
+							<i class="fas fa-angle-double-left"></i>
+						</button> 
+						<button ng-click="pagerPhanCa.prev()" class="btn btn-info btn-circle"> 
+							<i class="fas fa-angle-left"></i>
+						</button>
+						<button class="btn btn-info" disabled="disabled">{{pagerPhanCa.page + 1}} of {{pagerPhanCa.count}}</button>
+						<button ng-click="pagerPhanCa.next()" class="btn btn-info btn-circle"> 
+							<i class="fas fa-angle-right"></i>
+						</button> 
+						<button ng-click="pagerPhanCa.last()" class="btn btn-info btn-circle" ng-disabled="disabledBtnLast"> 
+							<i class="	fas fa-angle-double-right"></i>
+						</button>
+					</div>
+		</div>
+	</div>
+</div>
+
+	</div>
+</div>
+
+
+
+

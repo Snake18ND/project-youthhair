@@ -1,0 +1,160 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+	<ul class="nav nav-tabs">
+		<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+			href="#form">Chi Tiết</a></li>
+		<li class="nav-item"><a class="nav-link active"
+			data-bs-toggle="tab" href="#list">Danh Sách</a></li>
+		<li class="nav-item"><a class="nav-link"
+			data-bs-toggle="tab" href="#phanca">Phân Ca</a></li>
+	</ul>
+	<div class="tab-content">
+		<div id="form" class="tab-pane fade">
+			<br>
+			<div ng-include="'/admin/templates/employee/_form.html'"></div>
+		</div>
+		<div id="list" class="tab-pane active">
+			<br>
+			<div ng-include="'/admin/templates/employee/_table.html'"></div>
+		</div>
+		<div id="phanca" class="tab-pane fade">
+			<br>
+			<div ng-include="'/admin/templates/employee/_phanca.html'"></div>
+		</div>
+	</div>
+</div>
+
+<!-- PhanCa Modal-->
+<div class="modal fade" id="PhanCaModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title" id="exampleModalLabel">Phân Ca Cho Nhân Viên</h3>
+				<button class="close" id="closePhanCaModal" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Họ Tên Nhân Viên</label>
+						<input ng-model="formPhanCa.employee.fullName" type="text"
+							class="form-control " id="fullname" placeholder="Họ Tên..."
+							disabled>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Biệt Danh Nhân Viên</label>
+						<input ng-model="formPhanCa.employee.nickname" type="text"
+							class="form-control " id="fullname" placeholder="Biệt Danh..."
+							disabled>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Vai Trò</label>
+						<input ng-model="formPhanCa.employee.role.name" type="text"
+							class="form-control " id="fullname" placeholder="Vai Trò..."
+							disabled>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="datePhanCa">Ngày Đăng Ký <span
+							class="text-danger">(*)</span></label>
+						<input ng-model="formPhanCa.date" type="date" onkeydown="return false"
+							class="form-control " id="datePhanCa" placeholder="Ngày Đăng Ký..."
+							>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="voucher">Chọn Ca Làm <span
+							class="text-danger">(*)</span></label> <select class="form-control"
+							id="voucher" ng-model="formPhanCa.shifts.id">
+							<option disabled selected value="">Hãy Chọn 1 Ca Làm</option>
+							<option ng-repeat="c in calamviec" ng-value="{{c.id}}">{{c.name}}</option>
+						</select>
+					</div>
+				</div>
+				<hr>
+				<div class="text-right">
+					<button class="btn btn-success"
+						ng-click="saveCaLam()">Lưu</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<!-- PhanCa Modal-->
+<div class="modal fade" id="updatePhanCaModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title" id="exampleModalLabel">Phân Ca Cho Nhân Viên</h3>
+				<button class="close" id="closeUpdatePhanCaModal" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Họ Tên Nhân Viên</label>
+						<input ng-model="formEditCaLam.employee.fullName" type="text"
+							class="form-control " id="fullname" placeholder="Họ Tên..."
+							readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Biệt Danh Nhân Viên</label>
+						<input ng-model="formEditCaLam.employee.nickname" type="text"
+							class="form-control " id="fullname" placeholder="Biệt Danh..."
+							readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="fullName">Vai Trò</label>
+						<input ng-model="formEditCaLam.employee.role.name" type="text"
+							class="form-control " id="fullname" placeholder="Vai Trò..."
+							readonly>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="dateUpdatePhanCa">Ngày Đăng Ký</label>
+						<input ng-model="formEditCaLam.date" type="text" readonly
+							class="form-control" id="dateUpdatePhanCa" placeholder="Ngày Đăng Ký..."
+							>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label class="text-black" for="voucher">Chọn Ca Làm <span
+							class="text-danger">(*)</span></label> <select class="form-control"
+							id="voucher" ng-model="formEditCaLam.shifts.id">
+							<option disabled selected value="">Hãy Chọn 1 Ca Làm</option>
+							<option ng-repeat="c in calamviec" ng-value="{{c.id}}">{{c.name}}</option>
+						</select>
+					</div>
+				</div>
+				<hr>
+				<div class="text-right">
+					<button class="btn btn-warning"
+						ng-click="updateCaLam()">Lưu</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

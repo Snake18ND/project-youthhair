@@ -1,0 +1,240 @@
+<div class="card shadow border-left-success mb-4" xmlns:th="https://www.thymeleaf.org">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-success">Danh Sách Hoàn
+			Thành</h6>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<div class="d-none d-sm-inline-block">
+				<input type="text" ng-model="searchText"
+								 class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+								 aria-label="Search">
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped text-dark text-center">
+				<thead class="thead-dark">
+					<tr>
+						<th>Khách Hàng</th>
+						<th>Stylist</th>
+						<th>Thời Gian</th>
+						<th>Tổng Tiền</th>
+						<th>Ngày Tạo</th>
+						<th>Trạng Thái</th>
+						<th>Chức Năng</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="item in pager1.items1 | filter:searchText" >
+					<td>{{item.customer.fullName}}</td>
+					<td>{{item.employee1.fullName}}</td>
+					<td>{{item.timeBooking}}</td>
+					<td>{{item.totalPrice}}</td>
+					<td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
+					<td>{{item.statusbooking.statusName}}</td>
+					<td align="center"><a style="cursor: pointer;" ng-click="showDetail1(item);
+																voucherCus.voucherByCustomer(item.customer.id);
+																serviceByBooking.getSerDetail(item.id) "
+										  class="btn btn-success" data-toggle="modal"
+										  data-target="#confirmModal"> Thanh Toán
+					</a>
+					</td>
+
+				</tr>
+				</tbody>
+			</table>
+			<div class="d-none d-sm-inline-block form-inline">
+				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+					Page Size</div>
+				<select
+						name="sizePage"
+						class="custom-select"
+						ng-model="pager1.size"
+						ng-change="pager1.setPage()"
+						ng-options="x for x in sizePage">
+				</select>
+			</div>
+			<div class="text-center">
+				<button ng-click="pager1.first()" class="btn btn-primary btn-circle"> <i
+						class="fas fa-angle-double-left"></i>
+				</button> <button ng-click="pager1.prev()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-left"></i>
+				</button>
+				<button class="btn btn-primary" disabled="disabled">{{pager1.page + 1}} of {{pager1.count}}</button>
+				<button ng-click="pager1.next()" class="btn btn-primary btn-circle"> <i
+						class="fas fa-angle-right"></i>
+				</button> <button ng-click="pager1.last()" class="btn btn-primary btn-circle"> <i
+					class="	fas fa-angle-double-right"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- confirmModal-->
+<div class="modal fade" tabindex="-1" role="dialog"
+	 aria-labelledby="exampleModalLabel" aria-hidden="true" id="confirmModal">
+		<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="m-0 font-weight-bold text-primary">Thanh Toán Hoá Đơn</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body p-5">
+					<div class="row form-group">
+						<div class="col-md-6 mb-3 mb-md-0">
+							<label class="text-black" for="fname">Họ Tên Khách Hàng</label><input
+								type="text" id="fname" class="form-control" ng-model="form1.customer.fullName"
+								placeholder="Họ Tên..." readonly>
+						</div>
+						<div class="col-md-6 mb-3 mb-md-0">
+							<label class="text-black" for="email">Email</label> <input ng-model="form1.customer.email"
+																					   type="email" id="email" class="form-control" placeholder="Email"
+																					   readonly>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-6">
+							<label class="text-black" for="lname">Số Điện Thoại </label> <input
+								type="text" id="lname" class="form-control" ng-model="form1.customer.phone"
+								placeholder="Số Điện Thoại..." readonly>
+						</div>
+						<div class="col-md-6 mb-3 mb-md-0">
+						<label class="text-black" for="date1">Ngày Làm Tóc</label> <input
+							type="date" id="date1" class="form-control datepicker px-2" ng-model="form1.createDate"
+							placeholder="Ngày Làm Tóc..." readonly>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="treatment">Các Dịch Vụ Đã Sử Dụng</label>
+							<ul class="services-form" >
+								<li ng-repeat="item in listSer">
+									<input type="checkbox" id="{{item.serviceName}}" disabled checked/>
+									<label for="{{item.serviceName}}">
+									<img src="../../../../images/{{item.image}}" />
+										<br>
+										{{item.serviceName}}
+								</label></li>
+
+							</ul>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="stylist">Stylist</label> <input
+								type="text" id="stylist"
+								ng-model="form1.employee1.fullName"
+								class="form-control datepicker px-2"
+								placeholder="Stylist..." readonly>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="note">Ghi Chú</label>
+							<textarea name="note" id="note" cols="30" rows="5" ng-model="form1.note"
+								class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+						</div>
+					</div>
+					<hr>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="treatment">Chọn Đánh Giá <span
+									class="text-danger">(*)</span></label>
+								<ul class="status-form text-center" >
+									<li><input type="radio" name="name" id="one" ng-click="votingId(1)" /> <label
+										for="one" class="btn btn-danger btn-circle btn-lg"> <span
+											class="icon"> <i class="fas fa-angry"></i>
+										</span>
+									</label> <br> Không Hài Lòng</li>
+	
+									<li><input ng-click="votingId(2)" type="radio" name="name" id="two" checked/> <label
+										for="two" class="btn btn-primary btn-circle btn-lg"> <span
+											class="icon"> <i class="fas fa-smile"></i>
+										</span>
+									</label> <br> Hài Lòng</li>
+									<li><input ng-click="votingId(3)" type="radio" name="name" id="three" /> <label
+										for="three" class="btn btn-success btn-circle btn-lg">
+											<span class="icon"> <i class="fas fa-grin-stars"></i>
+										</span>
+									</label> <br>Rất Hài Lòng</li>
+								</ul>
+							
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-6">
+							<h5 id="left" class="text-black" for="voucher" >Voucher: 
+								<a style="cursor: pointer;" data-toggle="modal" data-target="#VoucherModal">
+								<b ng-if="tenbuadi == ''"  class="text-secondary">
+									VoucherID 
+								</b>
+								<b ng-if="tenbuadi != ''"  class="text-primary">
+									{{tenbuadi}}
+								</b>								
+								
+								</a> 
+							</h5>
+							
+							<!-- 
+							<ul class="services-form" >
+								<li ng-repeat="item in voucherByCus">
+									<input type="checkbox"  id="{{item.id}}" ng-click="pay.add(item);totalPricebyVoucher.totalPrice1()"/>
+									<label for="{{item.id}}" >
+										<br>
+										{{item.id}}
+									</label></li>
+
+							</ul> -->
+						</div>
+						<div class="col-md-6 text-center">
+							<h4 id="right" class="text-black" >Tổng Tiền: <br> <span class="text-warning" >{{totalPricebyVoucher.total}} VNĐ</span></h4>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12" align="right">
+						<!-- 
+							<input type="submit" value="Thanh Toán"
+								class="btn btn-success py-2 px-4 text-white"> -->
+								<button type="button" class="btn btn-success" data-dismiss="modal" ng-click="pay.purchase()">Thanh Toán</button>
+						</div>
+					</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Voucher Modal-->
+<div class="modal fade" id="VoucherModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-center" id="exampleModalLabel">Chọn Voucher</h5>
+				<button class="close" id="closeVoucherModal" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<a style="cursor: pointer;" 
+					class="btn btn-info btn-block" 
+					ng-repeat="item in voucherByCus" 
+					ng-click="pay.add(item);
+								totalPricebyVoucher.totalPrice1()">
+					<i class="fas fa-user-tie"></i> {{item.id}}</a>
+			</div>
+		</div>
+	</div>
+</div>

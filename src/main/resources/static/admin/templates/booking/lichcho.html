@@ -1,0 +1,76 @@
+<div class="card shadow border-left-primary mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">Danh Sách Lịch Chờ Cắt</h6>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<div class="d-none d-sm-inline-block">
+				<input type="text" ng-model="searchText"
+					class="form-control bg-light border-0 small" placeholder="Tìm kiếm..."
+					aria-label="Search">
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped text-dark text-center" id="dataTable">
+				<thead class="thead-dark">
+					<tr>
+						<th>Khách Hàng</th>
+						<th>Stylist</th>
+						<th>Thời Gian</th>
+						<th>Tổng Tiền</th>
+						<th>Ngày Tạo</th>
+						<th>Trạng Thái</th>
+						<th>Chức Năng</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in pager.items | filter:searchText" >
+						<td>{{item.customer.fullName}}</td>
+						<td>{{item.employee1.fullName}}</td>
+						<td>{{item.timeBooking}}</td>
+						<td>{{item.totalPrice}}</td>
+						<td>{{item.createDate | date:'dd-MM-yyyy'}}</td>
+						<td>{{item.statusbooking.statusName}}</td>
+						<td>
+							<a style="cursor: pointer;" ng-click="showDetail(item);styId(item.employee1.id);getDate2()"
+								class="btn btn-primary" data-toggle="modal" data-target="#infoWFCModal"> Chi Tiết</i>
+							</a>
+							<a style="cursor: pointer;" class="btn btn-danger" ng-click="updateCAN(item)"> Huỷ</i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="d-none d-sm-inline-block form-inline">
+				<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+					Page Size</div>
+				<select
+						name="sizePage"
+						class="custom-select"
+						ng-model="pager.size"
+						ng-change="pager.setPage()"
+						ng-options="x for x in sizePage">
+				</select>
+			</div>
+			<div class="text-center">
+
+				<button ng-click="pager.first()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-double-left"></i>
+				</button> <button ng-click="pager.prev()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-left"></i>
+				</button>
+				<button class="btn btn-primary" disabled="disabled">{{pager.page + 1}} of {{pager.count}}</button>
+				<button ng-click="pager.next()" class="btn btn-primary btn-circle"> <i
+					class="fas fa-angle-right"></i>
+				</button> <button ng-click="pager.last()" class="btn btn-primary btn-circle"> <i
+					class="	fas fa-angle-double-right"></i>
+				</button>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+
+
+

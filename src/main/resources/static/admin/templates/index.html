@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Youth's Hairs - Dashboard</title>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AngularJS -->
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
+
+    <!-- Custom fonts for this template-->
+    <link href="/assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+          type="text/css">
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="/assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/admin/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/assets/admin/css/style.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top" ng-app="admin_app" ng-controller="main-ctrl">
+
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul
+            class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion"
+            id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a
+                class="sidebar-brand d-flex align-items-center justify-content-center"
+                href="/">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <b class="sidebar-brand-text mx-3">Youth's Hair</b>
+        </a>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item"><a class="nav-link" href="#!"> <i
+                class="fas fa-fw fa-tachometer-alt"></i> <span>Thống Kê</span></a></li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">Quản Lý</div>
+
+
+        <!-- Nav Item - Booking -->
+        <li class="nav-item"><a class="nav-link collapsed"
+                                data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="true" aria-controls="collapseTwo"
+                                style="cursor: pointer;"> <i class="fas fa-fw fa-clock"></i> <span>Lịch
+						Hẹn</span>
+        </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Quản lý các lịch hẹn:</h6>
+                    <a class="collapse-item" href="#!booking">Các lịch đang hoạt
+                        động</a> <a class="collapse-item" href="#!checkbooking">Các lịch
+                    chờ xác nhận</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Contacts -->
+        <li class="nav-item"><a class="nav-link" href="#!contacts">
+            <i class="fas fa-fw fa-phone"></i> <span>Liên Hệ</span>
+        </a></li>
+
+        <!-- Nav Item - Services -->
+        <li class="nav-item"><a class="nav-link" href="#!services">
+            <i class="fas fa-fw fa-cut"></i> <span>Dịch Vụ</span>
+        </a></li>
+
+        <!-- Nav Item - Customers -->
+        <li class="nav-item"><a class="nav-link" href="#!customers">
+            <i class="fas fa-fw fa-heart"></i> <span>Khách Hàng</span>
+        </a></li>
+        <div ng-if="authority.roleName == 'admin'">
+            <!-- Nav Item - Employees -->
+            <li class="nav-item" th:if="${#request.isUserInRole('Quản lý')}">
+                <a class="nav-link" href="#!employees">
+                    <i class="fas fa-fw fa-id-card"></i> <span>Nhân Viên</span>
+                </a>
+                <a class="nav-link" href="#!vouchers">
+                    <i class="fas fa-fw fa-gift"></i> <span>Vouchers</span>
+                </a>
+                <a class="nav-link" href="#!billpaid">
+                    <i class="fas fa-fw fa-file-alt"></i> <span>Hoá Đơn</span>
+                </a>
+            </li>
+        </div>
+        <!-- Nav Item - Vouchers -->
+        <!--			<li class="nav-item"></li>-->
+
+        <!--			&lt;!&ndash; Nav Item - bill &ndash;&gt;-->
+        <!--			<li class="nav-item"></li>-->
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Topbar -->
+        <nav
+                class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Nav Item - Alerts -->
+                <li class="nav-item dropdown no-arrow mx-1"><a
+                        class="nav-link dropdown-toggle" style="cursor: pointer;"
+                        id="alertsDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"> <i
+                        class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts --> <span
+                        class="badge badge-danger badge-counter">{{bookingUCF.length}}</span>
+                </a> <!-- Dropdown - Alerts -->
+                    <div
+                            class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="alertsDropdown">
+                        <h6 class="dropdown-header">Thông Báo</h6>
+                        <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;" ng-repeat="a in alertBookingUCF">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">{{a.createDate}}</div>
+                                <span class="font-weight-bold">{{a.customer.fullName}} - {{a.timeBooking}}</span> <br>
+                                <span class="font-weight-bold">Stylist: <b>{{a.stylist.fullName}}</b></span>
+                                
+                            </div>
+                        </a> <a class="dropdown-item text-center small text-gray-500" href="#!checkbooking">Show
+                        All Alerts</a>
+                    </div>
+                </li>
+
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow"><a
+                        class="nav-link dropdown-toggle" style="cursor: pointer;" id="userDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"> 
+                        
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:if="${#request.remoteUser}">
+                        	Welcome {{authority.roleName.toUpperCase()}}
+                        </span> 
+                        
+                    <img class="img-profile rounded-circle"
+                         src="/assets/admin/img/undraw_profile.svg">
+                </a> <!-- Dropdown - User Information -->
+                    <div
+                            class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
+                           data-target="#logoutModal"> <i
+                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Đăng Xuất
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+        <!-- Main Content -->
+        <div id="content">
+            <ng-view></ng-view>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Youth's Hairs 2021</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Thông Báo</h3>
+                <button class="close" type="button" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="text-gray-800">Bạn có muốn đăng xuất không?</h5>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button"
+                        data-dismiss="modal">Huỷ
+                </button>
+                <a class="btn btn-danger" href="/security/logoff">Đăng Xuất</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/assets/admin/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/assets/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/assets/admin/js/sb-admin-2.min.js"></script>
+<!-- convert date-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+<!-- Controller Angular -->
+<script type="text/javascript" src="admin-app.js"></script>
+<script type="text/javascript" src="booking/booking_ctrl.js"></script>
+<script type="text/javascript" src="employee/employee_ctrl.js"></script>
+<script type="text/javascript" src="service/service_ctrl.js"></script>
+<script type="text/javascript" src="voucher/voucher_ctrl.js"></script>
+<script type="text/javascript" src="customer/customer_ctrl.js"></script>
+<script type="text/javascript" src="contact/contact_ctrl.js"></script>
+<script type="text/javascript" src="bill/bill_ctrl.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#export').on('click', function (e) {
+            $("#tableToExport").table2excel({
+                exclude: ".noExport",
+                name: "Data",
+                filename: "Workbook",
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

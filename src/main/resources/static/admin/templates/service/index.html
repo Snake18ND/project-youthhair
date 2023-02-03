@@ -1,0 +1,22 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+	<ul class="nav nav-tabs">
+		<li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
+			href="#form">Chi tiết</a></li>
+		<li class="nav-item"><a class="nav-link active"
+			data-bs-toggle="tab" href="#list">Danh Sách</a></li>
+	</ul>
+	<div class="tab-content">
+		<div id="form" class="tab-pane fade">
+			<br>
+			<div ng-include="'/admin/templates/service/_form.html'"></div>
+		</div>
+		<div id="list" class="tab-pane active">
+			<br>
+			<div ng-include="'/admin/templates/service/_table.html'"></div>
+		</div>
+	</div>
+</div>
+
+

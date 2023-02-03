@@ -1,0 +1,187 @@
+<div class="card shadow border-bottom-info mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-info">Stylist Đang Hoạt Động</h6>
+	</div>
+
+
+	<div class="card-body">
+		<div class="row" >
+			<div class="col-xl-3 col-md-6 mb-4" ng-repeat="sty in stylist" ng-value="showInfoCustomerIAT()">
+				<div class="card border-left-primary shadow h-100" >
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 text-xl font-weight-bold text-primary">{{sty.employee.fullName}} ({{sty.shifts.name}})</h6>
+						
+                        <div class="dropdown no-arrow">
+                            <a style="cursor: pointer;" data-toggle="modal" data-target="#BookingEditModal" ng-click="showDetail3(customerInfoIAT[$index])">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                        </div>
+					</div>
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div ng-if="customerInfoIAT[$index].customer == null">
+							        <div class="mb-0 font-weight-bold text-info">									
+										Đang rảnh.
+									</div>
+							    </div>
+								<div class="text-xs mb-0 font-weight-bold text-gray-800">									
+									{{customerInfoIAT[$index].customer.fullName}} 
+								</div>
+								<div class="text-xs font-weight-bold text-success mb-1">
+									{{customerInfoIAT[$index].customer.phone}} 
+								</div>
+							</div>
+							<div class="col-auto">
+								<a style="cursor: pointer;" data-toggle="modal" data-target="#StylistModal" ng-click="getDataBookingWaitting(sty.employee.id)">
+									<i class="fas fa-calendar-plus fa-2x text-primary"></i>
+								</a> 
+								<a style="cursor: pointer;" ng-click="tickDoneIAT(customerInfoIAT[$index]);">
+									<i class="fas fa-check-circle fa-2x text-success"></i>
+								</a>
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Stylist Modal-->
+	<div class="modal fade" id="StylistModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Thêm Việc Làm</h5>
+					<button class="close" id="closeStylistModal" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div ng-if="bookingWaiting[0] == null">
+				        <div class="text-lg font-weight-bold text-secondary text-center">									
+							Không có lịch hẹn.
+						</div>
+				    </div>
+					<a style="cursor: pointer;" class="btn btn-info btn-block" ng-repeat="item in bookingWaiting" ng-click="setBookingCutting(item)"><i
+						class="fas fa-user-tie"></i> {{item.customer.fullName}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+<!-- The Modal BookingEdit -->
+	<div id="BookingEditModal" class="modal fade" tabindex="-1" role="dialog"
+		 aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="m-0 font-weight-bold text-primary">Chỉnh sửa chi tiết</h4>
+					<button type="button" class="close" data-dismiss="modal" id="closeModalIAT">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<form class="css-form" name="myForm"
+					  ng-submit="myForm.$valid" novalidate>
+
+
+				<div class="modal-body p-5">
+
+						<div class="row form-group">
+							<div class="col-md-12">
+								<label class="text-black" for="fname">Họ Tên</label><input
+									type="text" id="fname" class="form-control" ng-model="form3.customer.fullName"
+									placeholder="Họ Tên..." readonly>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-md-6 mb-3 mb-md-0">
+								<label class="text-black" for="email">Email</label> <input
+									type="email" id="email" class="form-control" ng-model="form3.customer.email"
+									placeholder="Email" readonly>
+							</div>
+							<div class="col-md-6">
+								<label class="text-black" for="lname">Số Điện Thoại </label> <input
+									type="text" id="lname" class="form-control" ng-model="form3.customer.phone"
+									placeholder="Số Điện Thoại..." readonly>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-md-6 mb-3 mb-md-0">
+								<label class="text-black" >Ngày Làm Tóc</label> <input
+									type="date" class="form-control datepicker px-2" ng-model="form3.createDate"
+									placeholder="Ngày Làm Tóc..." readonly>
+							</div>
+							<div class="col-md-6">
+								<label class="text-black" for="time">Khung Giờ Làm Tóc</label> <input
+									type="time" id="time" class="form-control datepicker px-2" ng-model="form3.time"
+									placeholder="Khung Giờ Làm Tóc..." readonly>
+								<span ng-show="myForm.$submitted ">
+      									<span ng-show="myForm.time.$error.required" class="error-msg">Bạn chưa chọn thời gian dịch vụ.</span>
+								</span>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-md-12">
+								<label class="text-black">Chọn Dịch Vụ <span class="text-danger">(*)</span></label>
+								<ul class="services-form">
+									<li ng-if="servicesChecked[$index] !=null" ng-repeat="services in db.services">
+										<input type="checkbox"
+										  id="st{{services.id}}" ng-click="cart.add(services.id)"
+										  ng-checked="showBookingWating(form3.id,services.id)>=0"/>
+										<label for="st{{services.id}}"> <img ng-src="{{'/assets/images/haircut/' + services.image}}" />
+											<br> {{services.serviceName}}
+										</label></li>
+								</ul>
+							</div>
+						</div>
+
+
+
+						<div class="row form-group">
+							<div class="col-md-12">
+								<label class="text-black" for="stylist">Stylist</label>
+								<select class="form-control" id="stylist"
+										ng-model="form3.employee1" disabled
+										ng-options="x as x.fullName for x in itemConfirm track by x.id">
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-md-12">
+								<label class="text-black" for="note">Ghi Chú</label>
+								<textarea name="note" id="note" cols="30" rows="5" ng-model="form3.note"
+									class="form-control" placeholder="Để lại ghi chú tại đây..."></textarea>
+							</div>
+						</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<h4 class="text-black" >Tổng Tiền: <span class="text-warning">{{cart.amount | number:0}} VNĐ</span></h4>
+						</div>
+					</div>
+
+						<div class="row form-group">
+							<div class="col-md-12">
+								<input type="submit" value="Lưu" id="btnSaveIAT" ng-click="booking.capNhatDangCat()"
+									class="btn btn-primary py-2 px-4 text-white">
+							</div>
+						</div>
+
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
